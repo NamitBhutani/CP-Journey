@@ -1,37 +1,28 @@
-#include <stdio.h>
 #include <math.h>
-int powersum(int X, int N, int j)
+#include <stdio.h>
+
+int count = 0;
+int checkRecursive(int num, int x, int k, int n)
 {
-    if (X == 0)
-        return 0;
-    else if (X < 0)
-        return 1;
-    else
+    if (x == 0)
+        count++;
+
+    int r = (int)floor(pow(num, 1.0 / n));
+
+    for (int i = k + 1; i <= r; i++)
     {
-        X = X - (j ^ N);
-        j = (int)floor((pow(X, 1. / N)));
-        powersum(X, N, j);
+        int a = x - (int)pow(i, n);
+        if (a >= 0)
+            checkRecursive(num, x - (int)pow(i, n), i, n);
     }
+    return count;
 }
 
 int main()
 {
-    int count = 0;
-    int X, N;
-    scanf("%d", &X);
-    scanf("%d", &N);
-
-    for (int j = (int)floor((pow(X, 1. / N))); j >= 1; j--)
-    {
-
-        int test = powersum(X, N, j);
-        if (test == 0)
-        {
-            printf("%d", count + 1);
-        }
-        else if (test == 1)
-        {
-            continue;
-        }
-    }
+    int x = 0, n = 0;
+    scanf("%d", &x);
+    scanf("%d", &n);
+    printf("%d", (checkRecursive(x, x, 0, n)));
+    return 0;
 }
